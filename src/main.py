@@ -10,7 +10,7 @@ from emission_loop import start_loop
 
 
 async def main():
-    logging.basicConfig(level=logging.DEBUG)
+    logging.basicConfig(level=logging.INFO)
     logging.getLogger('pymorphy3').setLevel(logging.WARNING)
 
     loader.load_dynamics('dynamic')

@@ -1,6 +1,7 @@
 import collections
 import json
 import logging
+import os
 import os.path
 import shutil
 
@@ -33,6 +34,15 @@ def reload():
         shutil.copyfile('assets/default_config.json', config_file)
         logging.error('Config was created, restart needed')
         exit(0)
+
+    mongo_host = os.getenv('MONGO_HOST')
+    mongo_port = os.getenv('MONGO_PORT', '27017')
+    mongo_db = os.getenv('MONGO_DB')
+
+    if mongo_host:
+        config['bot']['mongo'] = f'mongodb://{mongo_host}:{mongo_port}/'
+    if mongo_db:
+        config['bot']['database'] = mongo_db
 
 
 reload()

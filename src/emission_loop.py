@@ -297,11 +297,6 @@ async def process_current_emission(
         Emission.emission_timestamp == emission_timestamp,
     )
 
-    print("REGION:", region)
-    print("RAW_START:", raw_start)
-    print("EMISSION_TIMESTAMP:", emission_timestamp)
-    print("FOUND:", existing_emission)
-
     if existing_emission:
         return
 
@@ -380,11 +375,11 @@ async def start_loop(bot: aiogram.Bot):
 
     while True:
         try:
+            online = await sc.get_stalcraft_online()
+
             for region, group in groups.items():
                 try:
                     emission_data = await sc.get_emission(region)
-
-                    online = await sc.get_stalcraft_online()
 
                     previous_start = emission_data.get("previousStart")
                     current_start = emission_data.get("currentStart")
