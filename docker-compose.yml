@@ -16,6 +16,11 @@ services:
       MONGO_DB: stalcraft_emissions
       PYTHONUNBUFFERED: 1
     command: ["python", "-u", "src/main.py"]
+    logging:
+      driver: local
+      options:
+        max-size: "10m"
+        max-file: "3"
 
   mongo:
     image: mongo:7
@@ -25,10 +30,15 @@ services:
       - mongo_data:/data/db
     healthcheck:
       test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
-      interval: 10s
+      interval: 60s
       timeout: 5s
-      retries: 10
-      start_period: 15s
+      retries: 5
+      start_period: 20s
+    logging:
+      driver: local
+      options:
+        max-size: "10m"
+        max-file: "3"
 
 volumes:
   mongo_data:
