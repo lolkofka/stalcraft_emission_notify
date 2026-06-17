@@ -2,11 +2,11 @@ import aiohttp
 
 
 class StalcraftAPI:
-    def __init__(self, client_id, client_secret, auth_token, url="https://eapi.stalcraft.net/",
+    def __init__(self, client_id, client_secret, auth_token, url="https://eapi.stalzone.com/",
                  debug=False,
                  stalcraft_status_key=None,
                  stalcraft_status_url='https://stalcraft-status.ru/',
-                 demo_url='https://dapi.stalcraft.net/'
+                 demo_url='https://dapi.stalzone.com/'
                  ):
         self.__api_url = url if not debug else demo_url
         self.client_id = client_id
@@ -16,7 +16,7 @@ class StalcraftAPI:
         self.stalcraft_status_url = stalcraft_status_url
         self.appToken = auth_token
         self.authHeader = {"Authorization": f"Bearer {self.appToken}"}
-        self.session = aiohttp.ClientSession()
+        self.session = aiohttp.ClientSession(headers={"User-Agent": "stalzone-eruptions/1.0"})
 
 
     async def __request_get(self, endpoint, headers=None, apiUrl=None, method='get'):
@@ -30,7 +30,7 @@ class StalcraftAPI:
                 r = await resp.json()
         return r
     
-    #No stalcraft api
+    # External status API
     async def get_stalcraft_online(self):
         if not self.stalcraft_status_key:
             return 0
